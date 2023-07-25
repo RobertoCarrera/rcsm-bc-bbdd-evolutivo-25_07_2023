@@ -1,0 +1,44 @@
+  CREATE DATABASE recetas;
+  USE recetas;
+  
+  CREATE TABLE recetas(
+	id_receta int auto_increment,
+    nombre varchar(30),
+    tiempo_preparacion int,
+    dificultad varchar(20),
+    PRIMARY KEY (id_receta)
+  );
+  CREATE TABLE ingredientes(
+	id_ingrediente int auto_increment,
+    nombre varchar(20),
+    PRIMARY KEY (id_ingrediente)
+  );
+  CREATE TABLE pasos(
+	id_paso int auto_increment,
+    numero_paso int,
+    instrucciones varchar(100),
+    PRIMARY KEY (id_paso)
+  );
+  CREATE TABLE formar(
+	id_receta int,
+    id_ingrediente int,
+    cantidad float,
+    PRIMARY KEY (id_receta, id_ingrediente),
+    FOREIGN KEY (id_receta) REFERENCES recetas (id_receta)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_ingrediente) REFERENCES ingredientes (id_ingrediente)
+    ON DELETE cascade
+    ON UPDATE cascade
+  );
+  CREATE TABLE estar(
+	id_paso int,
+    id_ingrediente int,
+    PRIMARY KEY (id_paso, id_ingrediente),
+    FOREIGN KEY (id_paso) REFERENCES pasos (id_paso)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_ingrediente) REFERENCES ingredientes (id_ingrediente)
+    ON DELETE cascade
+    ON UPDATE cascade
+  );

@@ -1,0 +1,56 @@
+CREATE DATABASE empresa_software;
+USE empresa_software;
+
+CREATE TABLE empresas(
+	id_empresa int,
+    cif varchar(15),
+    nombre varchar(22),
+    direccion varchar (30),
+    telefono int,
+    PRIMARY KEY (id_empresa)
+);
+CREATE TABLE proyectos(
+	id_proyecto int,
+    fecha_inicio date,
+    fecha_prevista date,
+    fecha_finalizacion date,
+    id_empresa int,
+    PRIMARY KEY (id_proyecto),
+    FOREIGN KEY (id_empresa) REFERENCES empresas(id_empresa)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE trabajadores(
+	codigo_trabajador int,
+    dni varchar(9),
+    nombre varchar(24),
+    apellidos varchar (32),
+    PRIMARY KEY (codigo_trabajador)
+);
+CREATE TABLE profesiones(
+	codigo_profesion int,
+    PRIMARY KEY (codigo_profesion)
+);
+CREATE TABLE hacer(
+	id_proyecto int,
+    codigo_trabajador int,
+    horas_trabajadas float,
+    PRIMARY KEY (id_proyecto, codigo_trabajador),
+    FOREIGN KEY (id_proyecto) REFERENCES proyectos(id_proyecto)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_trabajador) REFERENCES trabajadores (codigo_trabajador)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE tener(
+	codigo_trabajador int,
+    codigo_profesion int,
+    PRIMARY KEY (codigo_trabajador, codigo_profesion),
+    FOREIGN KEY (codigo_trabajador) REFERENCES trabajadores (codigo_trabajador)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_profesion) REFERENCES profesiones (codigo_profesion)
+    ON DELETE cascade
+    ON UPDATE cascade
+);

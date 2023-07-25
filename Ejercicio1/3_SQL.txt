@@ -1,0 +1,56 @@
+CREATE DATABASE biblioteca1;
+USE biblioteca1;
+
+CREATE TABLE autores(
+	id_autor int,
+    nombre varchar(24),
+    PRIMARY KEY (id_autor)
+);
+CREATE TABLE libros(
+	isbn varchar(15),
+    editorial varchar(20),
+    titulo varchar (30),
+    ano_escritura date,
+    PRIMARY KEY (isbn)
+);
+CREATE TABLE volumenes(
+	id_volumen int,
+    deteriorado boolean,
+    isbn varchar(15),
+    PRIMARY KEY (id_volumen),
+    FOREIGN KEY (isbn) REFERENCES libros (isbn)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE personas(
+	cod_socio int,
+    dni varchar(9),
+    nombre varchar(24),
+    apellidos varchar(32),
+    direccion varchar(32),
+    telefono int,
+    PRIMARY KEY (cod_socio)
+);
+CREATE TABLE prestamos(
+	id_prestamo int,
+    fecha_prestamo date,
+    fecha_real date,
+    id_volumen int,
+    cod_socio int,
+    PRIMARY KEY (id_prestamo),
+	FOREIGN KEY (id_volumen) REFERENCES volumenes (id_volumen)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (cod_socio) REFERENCES personas (cod_socio)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE escribir(
+	id_autor int,
+    isbn varchar(15),
+    PRIMARY KEY (id_autor, isbn),
+    FOREIGN KEY (id_autor) REFERENCES autores (id_autor)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (isbn) REFERENCES libros (isbn)
+);
