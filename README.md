@@ -47,3 +47,57 @@ CREATE TABLE capitales(
     ON DELETE cascade
     ON UPDATE cascade
 );
+
+**Ejercicio 4**
+
+![image](https://github.com/RobertoCarrera/rcsm-bc-ddl-25_07_2023/assets/24571167/aaf38981-12b3-441e-b063-5194508c3820)
+
+![image](https://github.com/RobertoCarrera/rcsm-bc-ddl-25_07_2023/assets/24571167/de2055ee-cf63-490d-9170-82ab41536eca)
+
+CREATE DATABASE guerras;
+USE guerras;
+CREATE TABLE paises(
+	id_pais int auto_increment,
+    nombre varchar(30),
+    PRIMARY KEY (id_pais)
+);
+CREATE TABLE anos_independencia(
+	id_ano_indep int auto_increment,
+    inicio_indep date, 
+    final_indep date,
+    id_pais int,
+    PRIMARY KEY (id_ano_indep),
+    FOREIGN KEY (id_pais) REFERENCES paises(id_pais)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE guerras(	
+	id_guerra int auto_increment,
+    nombre varchar(30),
+    ano_inicio date,
+    ano_final date,
+    PRIMARY KEY (id_guerra)
+);
+CREATE TABLE bandos(
+	id_bando int auto_increment,
+    nombre varchar(30),
+    PRIMARY KEY (id_bando)
+);
+CREATE TABLE participar(
+	id_pais int,
+    id_guerra int,
+    FOREIGN KEY (id_pais) REFERENCES paises(id_pais),
+    FOREIGN KEY (id_guerra) REFERENCES guerras(id_guerra)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE tener(
+	participacion_inicio date,
+    participacion_final date,
+    id_guerra int,
+    id_bando int,
+    FOREIGN KEY (id_guerra) REFERENCES guerras(id_guerra),
+    FOREIGN KEY (id_bando) REFERENCES bandos(id_bando)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
