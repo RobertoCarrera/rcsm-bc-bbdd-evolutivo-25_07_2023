@@ -21,6 +21,8 @@ CREATE TABLE provincias(
     id_comunidad int,
     PRIMARY KEY (cp),
     FOREIGN KEY (id_comunidad) REFERENCES comunidades_autonomas(id_comunidad)
+    ON DELETE cascade
+    ON UPDATE cascade
 );
 CREATE TABLE localidades(
 	cp int,
@@ -29,6 +31,8 @@ CREATE TABLE localidades(
     cp_provincia int,
     PRIMARY KEY (cp),
     FOREIGN KEY (cp_provincia) REFERENCES provincias(cp)
+    ON DELETE cascade
+    ON UPDATE cascade
 );
 CREATE TABLE capitales(
 	id_capital int auto_increment,
@@ -40,4 +44,6 @@ CREATE TABLE capitales(
     FOREIGN KEY (id_comunidad) REFERENCES comunidades_autonomas(id_comunidad),
     FOREIGN KEY (cp_provincia) REFERENCES provincias(cp),
     FOREIGN KEY (cp_localidad) REFERENCES localidades(cp)
+    ON DELETE cascade
+    ON UPDATE cascade
 );
