@@ -41,8 +41,12 @@ CREATE TABLE capitales(
     cp_provincia int,
     cp_localidad int,
     PRIMARY KEY (id_capital),
-    FOREIGN KEY (id_comunidad) REFERENCES comunidades_autonomas(id_comunidad),
-    FOREIGN KEY (cp_provincia) REFERENCES provincias(cp),
+    FOREIGN KEY (id_comunidad) REFERENCES comunidades_autonomas(id_comunidad)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (cp_provincia) REFERENCES provincias(cp)
+    ON DELETE cascade
+    ON UPDATE cascade,
     FOREIGN KEY (cp_localidad) REFERENCES localidades(cp)
     ON DELETE cascade
     ON UPDATE cascade
@@ -86,7 +90,9 @@ CREATE TABLE bandos(
 CREATE TABLE participar(
 	id_pais int,
     id_guerra int,
-    FOREIGN KEY (id_pais) REFERENCES paises(id_pais),
+    FOREIGN KEY (id_pais) REFERENCES paises(id_pais)
+    ON DELETE cascade
+    ON UPDATE cascade,
     FOREIGN KEY (id_guerra) REFERENCES guerras(id_guerra)
     ON DELETE cascade
     ON UPDATE cascade
@@ -96,7 +102,13 @@ CREATE TABLE tener(
     participacion_final date,
     id_guerra int,
     id_bando int,
-    FOREIGN KEY (id_guerra) REFERENCES guerras(id_guerra),
+    FOREIGN KEY (id_guerra) REFERENCES guerras(id_guerra)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_bando) REFERENCES bandos(id_bando)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
     FOREIGN KEY (id_bando) REFERENCES bandos(id_bando)
     ON DELETE cascade
     ON UPDATE cascade
