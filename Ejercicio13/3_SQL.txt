@@ -1,0 +1,103 @@
+CREATE DATABASE empresa_comidas;
+USE empresa_comidas;
+
+CREATE TABLE empleados(
+	dni varchar(9),
+    nombre varchar(24),
+    apellidos varchar(32),
+    n_ss varchar(18),
+    telefono_fijo int,
+    telefono_movil int,
+    PRIMARY KEY (dni)
+);
+CREATE TABLE cocineros(
+	id int auto_increment,
+    anos_servicio int,
+    dni_empleados varchar(9),
+    PRIMARY KEY (id),
+    FOREIGN KEY (dni_empleados) REFERENCES empleados (dni)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE pinches(
+	id int auto_increment,
+    fecha_nacimiento date,
+    dni_empleados varchar(9),
+    id_cocineros int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (dni_empleados) REFERENCES empleados (dni)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_cocineros) REFERENCES cocineros (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE platos(
+	id int auto_increment,
+    precio float,
+    tipo_plato varchar (12),
+    PRIMARY KEY (id)
+);
+CREATE TABLE ingredientes(
+	id int auto_increment,
+    nombre varchar(24),
+    PRIMARY KEY (id)
+);
+CREATE TABLE estantes(
+	id varchar(8),
+    tamano float,
+    PRIMARY KEY (id)
+);
+CREATE TABLE almacenes(
+	id varchar(12),
+    nombre varchar(18),
+    n_almacen int,
+    descripcion varchar(50),
+    PRIMARY KEY (id)
+);
+CREATE TABLE preparar(
+	id_cocineros int,
+    id_platos int,
+    PRIMARY KEY (id_cocineros, id_platos),
+    FOREIGN KEY (id_cocineros) REFERENCES cocineros (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_platos) REFERENCES platos (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE contener(
+	id_platos int,
+    id_ingredientes int,
+    cantidad_ingrediente float,
+    PRIMARY KEY (id_platos, id_ingredientes),
+    FOREIGN KEY (id_platos) REFERENCES platos (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_ingredientes) REFERENCES ingredientes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE guardar(
+	id_ingredientes int,
+    id_estantes varchar(8),
+    cantidad_total float,
+    PRIMARY KEY (id_ingredientes, id_estantes),
+    FOREIGN KEY (id_ingredientes) REFERENCES ingredientes (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_estantes) REFERENCES estantes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE tener(
+	id_estantes varchar(8),
+    id_almacenes varchar(12),
+    PRIMARY KEY (id_estantes, id_almacenes),
+    FOREIGN KEY (id_estantes) REFERENCES estantes (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_almacenes) REFERENCES almacenes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
