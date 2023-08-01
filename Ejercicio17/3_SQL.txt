@@ -1,0 +1,105 @@
+CREATE DATABASE horario_escolar;
+USE horario_escolar;
+CREATE TABLE tipos(
+	id int,
+    nombre varchar(32),
+    PRIMARY KEY (id)
+);
+CREATE TABLE profesores(
+	codigo_interno int,
+    nombre varchar(32),
+    direccion varchar (35),
+    telefono int,
+    email varchar(25),
+    n_ss varchar(12),
+    PRIMARY KEY (codigo_interno)
+);
+CREATE TABLE aulas(
+	codigo_aula int,
+    nombre varchar(32),
+    numero int,
+    metros float,
+    PRIMARY KEY (codigo_aula)
+);
+CREATE TABLE cursos(
+	codigo_interno int,
+    PRIMARY KEY (codigo_interno)
+);
+CREATE TABLE horas(
+	id_hora int,
+    hora date,
+    PRIMARY KEY (id_hora)
+);
+CREATE TABLE matriculas(
+	codigo_interno int,
+    nombre varchar(32),
+    precio float,
+    PRIMARY KEY (codigo_interno)
+);
+CREATE TABLE asignaturas(
+	codigo_interno int,
+    codigo_europeo varchar(20),
+    nombre varchar(32),
+    codigo_aula int,
+    id_hora int,
+    PRIMARY KEY (codigo_interno),
+    FOREIGN KEY (codigo_aula) REFERENCES aulas (codigo_aula)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_hora) REFERENCES horas (id_hora)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE ciclos(
+	codigo_interno int,
+    nombre varchar(32),
+    id_tipo int,
+    PRIMARY KEY (codigo_interno),
+    FOREIGN KEY (id_tipo) REFERENCES tipos (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE asignaturas_matriculas(
+	codigo_interno_asignaturas int,
+    codigo_interno_matriculas int,
+    PRIMARY KEY (codigo_interno_asignaturas, codigo_interno_matriculas),
+    FOREIGN KEY (codigo_interno_asignaturas) REFERENCES asignaturas (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_interno_matriculas) REFERENCES matriculas (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE asignaturas_ciclos(
+	codigo_interno_asignaturas int,
+    codigo_interno_ciclos int,
+    PRIMARY KEY (codigo_interno_asignaturas, codigo_interno_ciclos),
+    FOREIGN KEY (codigo_interno_asignaturas) REFERENCES asignaturas (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_interno_ciclos) REFERENCES ciclos (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE asignaturas_profesores(
+	codigo_interno_asignaturas int,
+    codigo_interno_profesores int,
+    PRIMARY KEY (codigo_interno_asignaturas, codigo_interno_profesores),
+    FOREIGN KEY (codigo_interno_asignaturas) REFERENCES asignaturas (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_interno_profesores) REFERENCES profesores (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE asignaturas_cursos(
+	codigo_interno_asignaturas int,
+    codigo_interno_cursos int,
+    PRIMARY KEY (codigo_interno_asignaturas, codigo_interno_cursos),
+    FOREIGN KEY (codigo_interno_asignaturas) REFERENCES asignaturas (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (codigo_interno_cursos) REFERENCES cursos (codigo_interno)
+    ON DELETE cascade
+    ON UPDATE cascade
+);

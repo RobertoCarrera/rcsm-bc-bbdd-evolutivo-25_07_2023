@@ -1,0 +1,74 @@
+CREATE DATABASE accidentes_geograficos;
+USE accidentes_geograficos;
+CREATE TABLE accidentes(
+	id int,
+    nombre varchar(32),
+    pos_horizontal int,
+    pos_vertical int,
+    PRIMARY KEY (id)
+);
+CREATE TABLE paises(
+	id int,
+    nombre varchar(32),
+    extension int,
+    poblacion int,
+    PRIMARY KEY (id)
+);
+CREATE TABLE localidades(
+	id int,
+    nombre varchar(32),
+    id_pais int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_pais) REFERENCES paises (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE rios(
+	id int,
+    longitud float,
+    id_accidente int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_accidente) REFERENCES accidentes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE montanas(
+	id int,
+    altura float,
+    id_accidente int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_accidente) REFERENCES accidentes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE lagos(
+	id int,
+    extension float,
+    id_accidente int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_accidente) REFERENCES accidentes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE accidente_pais(
+	id_pais int,
+    id_accidente int,
+    PRIMARY KEY (id_pais, id_accidente),
+    FOREIGN KEY (id_pais) REFERENCES paises (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_accidente) REFERENCES accidentes (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
+CREATE TABLE localidades_rios(
+	id_localidad int,
+    id_rio int,
+    PRIMARY KEY (id_localidad, id_rio),
+    FOREIGN KEY (id_localidad) REFERENCES localidades (id)
+    ON DELETE cascade
+    ON UPDATE cascade,
+    FOREIGN KEY (id_rio) REFERENCES rios (id)
+    ON DELETE cascade
+    ON UPDATE cascade
+);
