@@ -63,9 +63,6 @@ CREATE TABLE prestamo(
     ON UPDATE cascade,
 	FOREIGN KEY (clave_ejemplar) REFERENCES ejemplar (clave_ejemplar)
     ON DELETE cascade
-    ON UPDATE cascade,
-	FOREIGN KEY (numero_orden) REFERENCES ejemplar (numero_orden)
-    ON DELETE cascade
     ON UPDATE cascade
 );
 CREATE TABLE trata_sobre(
@@ -82,7 +79,7 @@ CREATE TABLE trata_sobre(
 CREATE TABLE escrito_por(
 	clave_libro int,
 	clave_autor int,
-    PRIMARY KEY (clave_libro, clave_tema),
+    PRIMARY KEY (clave_libro, clave_autor),
 	FOREIGN KEY (clave_libro) REFERENCES libro (clave_libro)
     ON DELETE cascade
     ON UPDATE cascade,
@@ -90,3 +87,5 @@ CREATE TABLE escrito_por(
     ON DELETE cascade
     ON UPDATE cascade
 );
+
+DROP DATABASE biblioteca;
